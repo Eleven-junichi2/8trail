@@ -18,9 +18,7 @@ from .sound import SoundDict, ChannelManager
 
 import pygame
 
-from .animation import (
-    AnimationDict, AnimationImage, AnimationFactory, SpriteSheet
-)
+from .animation import AnimationDict, AnimationImage, AnimationFactory, SpriteSheet
 
 from . import global_
 from .global_ import init  # noqa
@@ -48,29 +46,24 @@ fps = 60
 
 textfactory = TextSurfaceFactory()
 textfactory.register_font(
-    "misaki_gothic",
-    pygame.font.Font(AssetFilePath.font("misaki_gothic.ttf"), 16))
+    "misaki_gothic", pygame.font.Font(AssetFilePath.font("misaki_gothic.ttf"), 16)
+)
 
 SE_VOLUME_DEFAULT = 0.8
 channel_manager = ChannelManager()
 channel_manager.register("enemy", pygame.mixer.Channel(0), SE_VOLUME_DEFAULT)
 channel_manager.register("player", pygame.mixer.Channel(1), SE_VOLUME_DEFAULT)
 sound_dict = SoundDict()
-sound_dict["explosion"] = pygame.mixer.Sound(
-    AssetFilePath.sound("explosion1.wav"))
-sound_dict["enemy_death1"] = pygame.mixer.Sound(
-    AssetFilePath.sound("deathse2.wav"))
-sound_dict["enemy_death2"] = pygame.mixer.Sound(
-    AssetFilePath.sound("deathse3.wav"))
-sound_dict["player_death"] = pygame.mixer.Sound(
-    AssetFilePath.sound("explosion2.wav"))
-sound_dict["shot"] = pygame.mixer.Sound(
-    AssetFilePath.sound("shot1.wav"))
-sound_dict["laser"] = pygame.mixer.Sound(
-    AssetFilePath.sound("laser2.wav"))
-music_dict = {"gameover": AssetFilePath.sound("music/gameover.wav"),
-              "space_battle": AssetFilePath.sound(
-    "music/bgm1.wav")}
+sound_dict["explosion"] = pygame.mixer.Sound(AssetFilePath.sound("explosion1.wav"))
+sound_dict["enemy_death1"] = pygame.mixer.Sound(AssetFilePath.sound("deathse2.wav"))
+sound_dict["enemy_death2"] = pygame.mixer.Sound(AssetFilePath.sound("deathse3.wav"))
+sound_dict["player_death"] = pygame.mixer.Sound(AssetFilePath.sound("explosion2.wav"))
+sound_dict["shot"] = pygame.mixer.Sound(AssetFilePath.sound("shot1.wav"))
+sound_dict["laser"] = pygame.mixer.Sound(AssetFilePath.sound("laser2.wav"))
+music_dict = {
+    "gameover": AssetFilePath.sound("music/gameover.wav"),
+    "space_battle": AssetFilePath.sound("music/bgm1.wav"),
+}
 
 show_hitbox = False
 
@@ -81,15 +74,12 @@ class Explosion(AnimationImage):
         self.sprite_sheet = SpriteSheet(AssetFilePath.img("explosion_a.png"))
         self.anim_frames: list[pygame.surface.Surface] = [
             self.sprite_sheet.image_by_area(0, 0, 16, 16),
-            self.sprite_sheet.image_by_area(
-                0, 16, 16, 16),
-            self.sprite_sheet.image_by_area(
-                0, 16*2, 16, 16),
-            self.sprite_sheet.image_by_area(
-                0, 16*3, 16, 16),
-            self.sprite_sheet.image_by_area(
-                0, 16*4, 16, 16),
-            self.sprite_sheet.image_by_area(0, 16*5, 16, 16)]
+            self.sprite_sheet.image_by_area(0, 16, 16, 16),
+            self.sprite_sheet.image_by_area(0, 16 * 2, 16, 16),
+            self.sprite_sheet.image_by_area(0, 16 * 3, 16, 16),
+            self.sprite_sheet.image_by_area(0, 16 * 4, 16, 16),
+            self.sprite_sheet.image_by_area(0, 16 * 5, 16, 16),
+        ]
         self.anim_interval = 3
 
 
@@ -99,15 +89,12 @@ class PlayerExplosion(AnimationImage):
         self.sprite_sheet = SpriteSheet(AssetFilePath.img("explosion_b.png"))
         self.anim_frames: list[pygame.surface.Surface] = [
             self.sprite_sheet.image_by_area(0, 0, 22, 22),
-            self.sprite_sheet.image_by_area(
-                0, 22, 22, 22),
-            self.sprite_sheet.image_by_area(
-                0, 22*2, 22, 22),
-            self.sprite_sheet.image_by_area(
-                0, 22*3, 22, 22),
-            self.sprite_sheet.image_by_area(
-                0, 22*4, 22, 22),
-            self.sprite_sheet.image_by_area(0, 22*5, 22, 22)]
+            self.sprite_sheet.image_by_area(0, 22, 22, 22),
+            self.sprite_sheet.image_by_area(0, 22 * 2, 22, 22),
+            self.sprite_sheet.image_by_area(0, 22 * 3, 22, 22),
+            self.sprite_sheet.image_by_area(0, 22 * 4, 22, 22),
+            self.sprite_sheet.image_by_area(0, 22 * 5, 22, 22),
+        ]
         self.anim_interval = 2
 
 
@@ -116,7 +103,8 @@ class FighterIdle(AnimationImage):
         super().__init__()
         self.sprite_sheet = SpriteSheet(AssetFilePath.img("fighter_a.png"))
         self.anim_frames: list[pygame.surface.Surface] = [
-            self.sprite_sheet.image_by_area(0, 22 * 2, 22, 22), ]
+            self.sprite_sheet.image_by_area(0, 22 * 2, 22, 22),
+        ]
 
 
 class FighterRollLeft(AnimationImage):
@@ -125,7 +113,8 @@ class FighterRollLeft(AnimationImage):
         self.sprite_sheet = SpriteSheet(AssetFilePath.img("fighter_a.png"))
         self.anim_frames: list[pygame.surface.Surface] = [
             self.sprite_sheet.image_by_area(0, 0, 22, 22),
-            self.sprite_sheet.image_by_area(0, 22, 22, 22), ]
+            self.sprite_sheet.image_by_area(0, 22, 22, 22),
+        ]
         self.anim_interval = 15
         self.is_loop = False
 
@@ -136,7 +125,8 @@ class FighterRollRight(AnimationImage):
         self.sprite_sheet = SpriteSheet(AssetFilePath.img("fighter_a.png"))
         self.anim_frames: list[pygame.surface.Surface] = [
             self.sprite_sheet.image_by_area(0, 22 * 3, 22, 22),
-            self.sprite_sheet.image_by_area(0, 22 * 4, 22, 22), ]
+            self.sprite_sheet.image_by_area(0, 22 * 4, 22, 22),
+        ]
         self.anim_interval = 15
         self.is_loop = False
 
@@ -149,7 +139,8 @@ class ScoutDiskIdle(AnimationImage):
             self.sprite_sheet.image_by_area(0, 0, 16, 16),
             self.sprite_sheet.image_by_area(0, 16, 16, 16),
             self.sprite_sheet.image_by_area(0, 16 * 2, 16, 16),
-            self.sprite_sheet.image_by_area(0, 16 * 3, 16, 16), ]
+            self.sprite_sheet.image_by_area(0, 16 * 3, 16, 16),
+        ]
         self.anim_interval = 5
 
 
@@ -161,7 +152,8 @@ class ScoutDiskMove(AnimationImage):
             self.sprite_sheet.image_by_area(0, 16 * 4, 16, 16),
             self.sprite_sheet.image_by_area(0, 16 * 5, 16, 16),
             self.sprite_sheet.image_by_area(0, 16 * 6, 16, 16),
-            self.sprite_sheet.image_by_area(0, 16 * 7, 16, 16), ]
+            self.sprite_sheet.image_by_area(0, 16 * 7, 16, 16),
+        ]
         self.anim_interval = 5
 
 
@@ -170,7 +162,8 @@ class ScoutDisk2Idle(AnimationImage):
         super().__init__()
         self.sprite_sheet = SpriteSheet(AssetFilePath.img("scoutdisk.png"))
         self.anim_frames: list[pygame.surface.Surface] = [
-            self.sprite_sheet.image_by_area(0, 0, 18, 18), ]
+            self.sprite_sheet.image_by_area(0, 0, 18, 18),
+        ]
         self.anim_interval = 5
 
 
@@ -180,7 +173,8 @@ class ScoutDisk2Move(AnimationImage):
         self.sprite_sheet = SpriteSheet(AssetFilePath.img("scoutdisk.png"))
         self.anim_frames: list[pygame.surface.Surface] = [
             self.sprite_sheet.image_by_area(0, 18 * 1, 18, 18),
-            self.sprite_sheet.image_by_area(0, 18 * 2, 18, 18), ]
+            self.sprite_sheet.image_by_area(0, 18 * 2, 18, 18),
+        ]
         self.anim_interval = 5
 
 
@@ -189,7 +183,8 @@ class TrumplaIdle(AnimationImage):
         super().__init__()
         self.sprite_sheet = SpriteSheet(AssetFilePath.img("enemy_b.png"))
         self.anim_frames: list[pygame.surface.Surface] = [
-            self.sprite_sheet.image_by_area(0, 0, 16, 16), ]
+            self.sprite_sheet.image_by_area(0, 0, 16, 16),
+        ]
         self.anim_interval = 5
 
 
@@ -198,7 +193,8 @@ class TrumplaRollLeft(AnimationImage):
         super().__init__()
         self.sprite_sheet = SpriteSheet(AssetFilePath.img("enemy_b.png"))
         self.anim_frames: list[pygame.surface.Surface] = [
-            self.sprite_sheet.image_by_area(0, 16 * 3, 16, 16), ]
+            self.sprite_sheet.image_by_area(0, 16 * 3, 16, 16),
+        ]
         self.anim_interval = 10
 
 
@@ -207,7 +203,8 @@ class TrumplaRollRight(AnimationImage):
         super().__init__()
         self.sprite_sheet = SpriteSheet(AssetFilePath.img("enemy_b.png"))
         self.anim_frames: list[pygame.surface.Surface] = [
-            self.sprite_sheet.image_by_area(0, 16, 16, 16), ]
+            self.sprite_sheet.image_by_area(0, 16, 16, 16),
+        ]
         self.anim_interval = 10
 
 
@@ -216,8 +213,9 @@ class TrumplaAttack(AnimationImage):
         super().__init__()
         self.sprite_sheet = SpriteSheet(AssetFilePath.img("enemy_b.png"))
         self.anim_frames: list[pygame.surface.Surface] = [
-            self.sprite_sheet.image_by_area(0, 16*4, 16, 16),
-            self.sprite_sheet.image_by_area(0, 0, 16, 16)]
+            self.sprite_sheet.image_by_area(0, 16 * 4, 16, 16),
+            self.sprite_sheet.image_by_area(0, 0, 16, 16),
+        ]
         self.anim_interval = 20
 
 
@@ -228,8 +226,9 @@ class EnemyShotAnim(AnimationImage):
         self.anim_frames: list[pygame.surface.Surface] = [
             self.sprite_sheet.image_by_area(0, 0, 4, 4),
             self.sprite_sheet.image_by_area(0, 4, 4, 4),
-            self.sprite_sheet.image_by_area(0, 4*2, 4, 4),
-            self.sprite_sheet.image_by_area(0, 4*3, 4, 4), ]
+            self.sprite_sheet.image_by_area(0, 4 * 2, 4, 4),
+            self.sprite_sheet.image_by_area(0, 4 * 3, 4, 4),
+        ]
         self.anim_interval = 6
 
 
@@ -240,8 +239,9 @@ class EnemyShot2Anim(AnimationImage):
         self.anim_frames: list[pygame.surface.Surface] = [
             self.sprite_sheet.image_by_area(0, 0, 4, 4),
             self.sprite_sheet.image_by_area(0, 4, 4, 4),
-            self.sprite_sheet.image_by_area(0, 4*2, 4, 4),
-            self.sprite_sheet.image_by_area(0, 4*3, 4, 4), ]
+            self.sprite_sheet.image_by_area(0, 4 * 2, 4, 4),
+            self.sprite_sheet.image_by_area(0, 4 * 3, 4, 4),
+        ]
         self.anim_interval = 6
 
 
@@ -252,12 +252,13 @@ class EnemyShot3Anim(AnimationImage):
         self.anim_frames: list[pygame.surface.Surface] = [
             self.sprite_sheet.image_by_area(0, 0, 4, 4),
             self.sprite_sheet.image_by_area(0, 4, 4, 4),
-            self.sprite_sheet.image_by_area(0, 4*2, 4, 4),
-            self.sprite_sheet.image_by_area(0, 4*3, 4, 4),
-            self.sprite_sheet.image_by_area(0, 4*4, 4, 4),
-            self.sprite_sheet.image_by_area(0, 4*5, 4, 4),
-            self.sprite_sheet.image_by_area(0, 4*6, 4, 4),
-            self.sprite_sheet.image_by_area(0, 4*7, 4, 4), ]
+            self.sprite_sheet.image_by_area(0, 4 * 2, 4, 4),
+            self.sprite_sheet.image_by_area(0, 4 * 3, 4, 4),
+            self.sprite_sheet.image_by_area(0, 4 * 4, 4, 4),
+            self.sprite_sheet.image_by_area(0, 4 * 5, 4, 4),
+            self.sprite_sheet.image_by_area(0, 4 * 6, 4, 4),
+            self.sprite_sheet.image_by_area(0, 4 * 7, 4, 4),
+        ]
         self.anim_interval = 6
 
 
@@ -268,8 +269,9 @@ class EnemyShot4Anim(AnimationImage):
         self.anim_frames: list[pygame.surface.Surface] = [
             self.sprite_sheet.image_by_area(0, 0, 6, 6),
             self.sprite_sheet.image_by_area(0, 6, 6, 6),
-            self.sprite_sheet.image_by_area(0, 6*2, 6, 6),
-            self.sprite_sheet.image_by_area(0, 6*3, 6, 6), ]
+            self.sprite_sheet.image_by_area(0, 6 * 2, 6, 6),
+            self.sprite_sheet.image_by_area(0, 6 * 3, 6, 6),
+        ]
         self.anim_interval = 6
 
 
@@ -280,8 +282,9 @@ class EnemyShot5Anim(AnimationImage):
         self.anim_frames: list[pygame.surface.Surface] = [
             self.sprite_sheet.image_by_area(0, 0, 4, 4),
             self.sprite_sheet.image_by_area(0, 4, 4, 4),
-            self.sprite_sheet.image_by_area(0, 4*2, 4, 4),
-            self.sprite_sheet.image_by_area(0, 4*3, 4, 4), ]
+            self.sprite_sheet.image_by_area(0, 4 * 2, 4, 4),
+            self.sprite_sheet.image_by_area(0, 4 * 3, 4, 4),
+        ]
         self.anim_interval = 6
 
 
@@ -292,14 +295,16 @@ class EnemyShot6Anim(AnimationImage):
         self.anim_frames: list[pygame.surface.Surface] = [
             self.sprite_sheet.image_by_area(0, 0, 5, 5),
             self.sprite_sheet.image_by_area(0, 5, 5, 5),
-            self.sprite_sheet.image_by_area(0, 5*2, 5, 5),
-            self.sprite_sheet.image_by_area(0, 5*3, 5, 5), ]
+            self.sprite_sheet.image_by_area(0, 5 * 2, 5, 5),
+            self.sprite_sheet.image_by_area(0, 5 * 3, 5, 5),
+        ]
         self.anim_interval = 4
 
 
 class PlayerShot(Entity):
-    def __init__(self, shooter_sprite: ShooterEntity, shot_que: EntityList,
-                 *args, **kwargs):
+    def __init__(
+        self, shooter_sprite: ShooterEntity, shot_que: EntityList, *args, **kwargs
+    ):
         super().__init__(*args, **kwargs)
         self.shot_que = shot_que
         self.image = pygame.image.load(AssetFilePath.img("shot1.png"))
@@ -312,12 +317,10 @@ class PlayerShot(Entity):
         self.is_launching = False
 
     def reset_pos_x(self):
-        self.x = self.shooter.x + \
-            self.shooter.rect.width / 2 - self.rect.width / 2
+        self.x = self.shooter.x + self.shooter.rect.width / 2 - self.rect.width / 2
 
     def reset_pos_y(self):
-        self.y = self.shooter.y + \
-            self.shooter.rect.height / 2 - self.rect.height
+        self.y = self.shooter.y + self.shooter.rect.height / 2 - self.rect.height
 
     def will_launch(self, direction: Arrow):
         self.arrow_of_move.set(direction)
@@ -327,8 +330,12 @@ class PlayerShot(Entity):
     def _fire(self, dt):
         if self.is_launching:
             self.move_on(dt)
-            if (self.y < 0 or global_.w_size[1] < self.y or
-                    self.x < 0 or global_.w_size[0] < self.x):
+            if (
+                self.y < 0
+                or global_.w_size[1] < self.y
+                or self.x < 0
+                or global_.w_size[0] < self.x
+            ):
                 self.arrow_of_move.unset(Arrow.up)
                 self.is_launching = False
                 self.reset_pos_x()
@@ -396,12 +403,13 @@ class PlayerMissile(PlayerShot):
             distance_list = []
             for enemy in self.gameworld.enemies():
                 distance = math.sqrt(
-                    (enemy.hitbox.centerx - self.hitbox.centerx) ** 2 +
-                    (enemy.hitbox.centery - self.hitbox.centery) ** 2)
+                    (enemy.hitbox.centerx - self.hitbox.centerx) ** 2
+                    + (enemy.hitbox.centery - self.hitbox.centery) ** 2
+                )
                 distance_list.append(distance)
             sorted_distance_list = copy.deepcopy(distance_list)
             sorted_distance_list.sort()
-            sorted_distance_list = sorted_distance_list[:len(missiles)]
+            sorted_distance_list = sorted_distance_list[: len(missiles)]
             for i, distance in enumerate(sorted_distance_list):
                 target_enemy_index = distance_list.index(distance)
                 target = self.gameworld.enemies()[target_enemy_index]
@@ -410,7 +418,8 @@ class PlayerMissile(PlayerShot):
                 #     target.rect.centerx - missiles[i].rect.centerx))
                 missiles[i].angle_to_target = math.atan2(
                     target.rect.centery - missiles[i].rect.centery,
-                    target.rect.centerx - missiles[i].rect.centerx)
+                    target.rect.centerx - missiles[i].rect.centerx,
+                )
                 missiles[i].move_by_angle(dt, missiles[i].angle_to_target)
         else:
             self.angle_to_target = math.radians(-90)
@@ -421,14 +430,16 @@ class PlayerMissile(PlayerShot):
             distance_list = []
             for enemy in self.gameworld.enemies():
                 distance = math.sqrt(
-                    (enemy.hitbox.centerx - self.hitbox.centerx) ** 2 +
-                    (enemy.hitbox.centery - self.hitbox.centery) ** 2)
+                    (enemy.hitbox.centerx - self.hitbox.centerx) ** 2
+                    + (enemy.hitbox.centery - self.hitbox.centery) ** 2
+                )
                 distance_list.append(distance)
             target_enemy_index = distance_list.index(min(distance_list))
             target = self.gameworld.enemies()[target_enemy_index]
             self.angle_to_target = math.atan2(
                 target.rect.centery - self.rect.centery,
-                target.rect.centerx - self.rect.centerx)
+                target.rect.centerx - self.rect.centerx,
+            )
             # print(f"single atan2 {self.angle_to_target}")
             self.move_by_angle(dt, self.angle_to_target)
         else:
@@ -452,8 +463,7 @@ class ScoutDiskEnemy(Enemy):
         self.hitbox.height = 10
         self.movement_speed = 2
         self.behavior_pattern = None
-        self.behavior_pattern_dict[
-            "strike_to_player"] = self.move_strike_to_player
+        self.behavior_pattern_dict["strike_to_player"] = self.move_strike_to_player
         self.gamescore = 10
         # self.is_moving = True
 
@@ -533,13 +543,18 @@ class TrumplaEnemy(ScoutDiskEnemy):
 
     def draw_to_debug(self, screen):
         pygame.draw.circle(
-            screen, (255, 0, 0),
-            (self.hitbox.centerx, self.hitbox.centery), self.shot_range, 1)
+            screen,
+            (255, 0, 0),
+            (self.hitbox.centerx, self.hitbox.centery),
+            self.shot_range,
+            1,
+        )
 
     def is_entity_in_shot_range(self, entity: Entity) -> bool:
         distance = math.sqrt(
-            (entity.hitbox.centerx - self.hitbox.centerx) ** 2 +
-            (entity.hitbox.centery - self.hitbox.centery) ** 2)
+            (entity.hitbox.centerx - self.hitbox.centerx) ** 2
+            + (entity.hitbox.centery - self.hitbox.centery) ** 2
+        )
         return distance <= self.shot_range
 
     @schedule_instance_method_interval("shot_interval")
@@ -553,7 +568,8 @@ class TrumplaEnemy(ScoutDiskEnemy):
             shot.y = self.rect.centery - shot.rect.height // 2
             shot.angle_to_target = math.atan2(
                 player.rect.centery - self.rect.centery,
-                player.rect.centerx - self.rect.centerx)
+                player.rect.centerx - self.rect.centerx,
+            )
             self.gameworld.entities.append(shot)
             shot.set_destination_to_entity(Player)
             self.animation[self.action].reset_animation()
@@ -576,8 +592,9 @@ class EnemyShot(DeadlyObstacle):
         self.movement_speed = 3
         self.behavior_pattern = "launching_aim_at_player"
         self.behavior_pattern_dict = {}
-        self.behavior_pattern_dict[
-            "launching_aim_at_player"] = self.move_launching_aim_at_player
+        self.behavior_pattern_dict["launching_aim_at_player"] = (
+            self.move_launching_aim_at_player
+        )
         self.gamescore = 10
 
     def update(self, dt):
@@ -588,8 +605,7 @@ class EnemyShot(DeadlyObstacle):
         # print(shot_angle)
         if (60 < shot_angle < 120) or (240 < shot_angle < 300):
             self.animation[self.action].set_current_frame_id(0)
-        elif (135 < shot_angle < 225) or (
-                (315 < shot_angle) or (shot_angle < 45)):
+        elif (135 < shot_angle < 225) or ((315 < shot_angle) or (shot_angle < 45)):
             self.animation[self.action].set_current_frame_id(2)
         else:
             self.animation[self.action].let_continue_animation()
@@ -671,24 +687,23 @@ class Player(ShooterEntity):
 
     def change_second_weapon(self, weapon):
         self.current_second_weapon = weapon
-        self.missile_interval = self.second_weapon[
-            self.current_second_weapon]["interval"]
+        self.missile_interval = self.second_weapon[self.current_second_weapon][
+            "interval"
+        ]
 
-    @ schedule_instance_method_interval(
-        "shot_interval", interval_ignorerer="ignore_shot_interval")
+    @schedule_instance_method_interval(
+        "shot_interval", interval_ignorerer="ignore_shot_interval"
+    )
     def shooting(self):
-        if (self.is_shot_allowed and
-                (len(self.shot_que) <
-                 self.weapon[self.current_weapon]["max_num"])):
+        if self.is_shot_allowed and (
+            len(self.shot_que) < self.weapon[self.current_weapon]["max_num"]
+        ):
             if self.current_weapon == "normal":
-                channel_manager["player"]["channel"].play(
-                    self.normal_shot_sound)
+                channel_manager["player"]["channel"].play(self.normal_shot_sound)
             elif self.current_weapon == "laser":
                 if not pygame.mixer.get_busy():
-                    channel_manager["player"]["channel"].play(
-                        self.laser_shot_sound)
-            shot = self.weapon[self.current_weapon]["entity"](
-                self, self.shot_que)
+                    channel_manager["player"]["channel"].play(self.laser_shot_sound)
+            shot = self.weapon[self.current_weapon]["entity"](self, self.shot_que)
             shot.entity_container = self.entity_container
             shot.will_launch(Arrow.up)
             self.shot_que.append(shot)
@@ -697,18 +712,19 @@ class Player(ShooterEntity):
         if self.current_weapon == "laser":
             self.laser_shot_sound.stop()
 
-    @ schedule_instance_method_interval(
-        "missile_interval", interval_ignorerer="ignore_missile_interval")
+    @schedule_instance_method_interval(
+        "missile_interval", interval_ignorerer="ignore_missile_interval"
+    )
     def shooting_missile(self):
-        if (self.is_missile_allowed and
-                (len(self.missile_que) <
-                 self.second_weapon[self.current_second_weapon]["max_num"])):
+        if self.is_missile_allowed and (
+            len(self.missile_que)
+            < self.second_weapon[self.current_second_weapon]["max_num"]
+        ):
             if self.current_second_weapon == "normal":
-                channel_manager["player"]["channel"].play(
-                    self.normal_shot_sound)
-            missile = self.second_weapon[
-                self.current_second_weapon]["entity"](
-                self, self.missile_que)
+                channel_manager["player"]["channel"].play(self.normal_shot_sound)
+            missile = self.second_weapon[self.current_second_weapon]["entity"](
+                self, self.missile_que
+            )
             missile.entity_container = self.entity_container
             missile.will_launch(Arrow.up)
             self.missile_que.append(missile)
@@ -760,8 +776,7 @@ class Player(ShooterEntity):
             explosion_effect.let_play_animation()
             self.gameworld.scene.visual_effects.append(explosion_effect)
             self.entity_container.kill_living_entity(self)
-            channel_manager["player"]["channel"].play(
-                self.death_sound)
+            channel_manager["player"]["channel"].play(self.death_sound)
 
     def draw(self, screen):
         super().draw(screen)
@@ -770,14 +785,11 @@ class Player(ShooterEntity):
         centerpos = (self.rect.centerx, self.rect.centery)
         hitbox_centerpos = (self.hitbox.centerx, self.hitbox.centery)
         pygame.draw.line(screen, (0, 255, 0), centerpos, centerpos)
-        pygame.draw.line(screen, (255, 122, 55),
-                         hitbox_centerpos, hitbox_centerpos)
-        pygame.draw.line(screen, (155, 155, 155),
-                         (0, 0), hitbox_centerpos)
+        pygame.draw.line(screen, (255, 122, 55), hitbox_centerpos, hitbox_centerpos)
+        pygame.draw.line(screen, (155, 155, 155), (0, 0), hitbox_centerpos)
 
 
 class GameScene(Scene):
-
     gamefont = pygame.font.Font(AssetFilePath.font("misaki_gothic.ttf"), 16)
 
     def __init__(self, *args, **kwargs):
@@ -790,15 +802,14 @@ class GameScene(Scene):
         self.init_text()
         self.gamelevel_running = True
         self.keyboard.register_keyaction(
-            pygame.K_q,
-            0, 10,
-            lambda: self.manager.transition_to(0))
+            pygame.K_q, 0, 10, lambda: self.manager.transition_to(0)
+        )
 
     def init_text(self):
         textfactory.register_text(
-            "tutorial", "z:主砲 x:ミサイル c:主砲切り替え v:やり直す")
-        textfactory.register_text(
-            "gamescore", pos=[0, 32], color_rgb=[255, 255, 255])
+            "tutorial", "z:主砲 x:ミサイル c:主砲切り替え v:やり直す"
+        )
+        textfactory.register_text("gamescore", pos=[0, 32], color_rgb=[255, 255, 255])
         textfactory.register_text("highscore")
         textfactory.register_text("num_of_enemy", color_rgb=[255, 200, 200])
         textfactory.register_text("elapsed_time_in_level")
@@ -811,40 +822,38 @@ class GameScene(Scene):
         self.gameworld.entities.append(self.player)
         self.keyboard.register_keyaction(
             pygame.K_UP,
-            0, 0,
+            0,
+            0,
             lambda: self.player.will_move_to(Arrow.up),
-            lambda: self.player.stop_moving_to(Arrow.up))
+            lambda: self.player.stop_moving_to(Arrow.up),
+        )
         self.keyboard.register_keyaction(
             pygame.K_DOWN,
-            0, 0,
+            0,
+            0,
             lambda: self.player.will_move_to(Arrow.down),
-            lambda: self.player.stop_moving_to(Arrow.down))
+            lambda: self.player.stop_moving_to(Arrow.down),
+        )
         self.keyboard.register_keyaction(
             pygame.K_RIGHT,
-            0, 0,
+            0,
+            0,
             lambda: self.player.will_move_to(Arrow.right),
-            lambda: self.player.stop_moving_to(Arrow.right))
+            lambda: self.player.stop_moving_to(Arrow.right),
+        )
         self.keyboard.register_keyaction(
             pygame.K_LEFT,
-            0, 0,
+            0,
+            0,
             lambda: self.player.will_move_to(Arrow.left),
-            lambda: self.player.stop_moving_to(Arrow.left))
+            lambda: self.player.stop_moving_to(Arrow.left),
+        )
         self.keyboard.register_keyaction(
-            pygame.K_z,
-            0, 4,
-            self.player.shooting, self.player.on_release_trigger)
-        self.keyboard.register_keyaction(
-            pygame.K_x,
-            0, 4,
-            self.player.shooting_missile)
-        self.keyboard.register_keyaction(
-            pygame.K_c,
-            0, 10,
-            self.switch_weapon)
-        self.keyboard.register_keyaction(
-            pygame.K_v,
-            0, 10,
-            self.reset_game)
+            pygame.K_z, 0, 4, self.player.shooting, self.player.on_release_trigger
+        )
+        self.keyboard.register_keyaction(pygame.K_x, 0, 4, self.player.shooting_missile)
+        self.keyboard.register_keyaction(pygame.K_c, 0, 10, self.switch_weapon)
+        self.keyboard.register_keyaction(pygame.K_v, 0, 10, self.reset_game)
 
     def switch_weapon(self):
         if self.player.current_weapon == "normal":
@@ -856,20 +865,22 @@ class GameScene(Scene):
         if not pygame.mixer.music.get_busy():
             pygame.mixer.music.load(music_dict["space_battle"])
             pygame.mixer.music.play()
+        textfactory.rewrite_text("gamescore", f"スコア:{self.gameworld.gamescore}")
         textfactory.rewrite_text(
-            "gamescore", f"スコア:{self.gameworld.gamescore}")
-        textfactory.rewrite_text(
-            "highscore", f"ハイスコア:{self.gameworld.highscore()}")
+            "highscore", f"ハイスコア:{self.gameworld.highscore()}"
+        )
         textfactory.set_text_pos_to_right("highscore")
         textfactory.rewrite_text(
-            "num_of_enemy",
-            f"敵機残り:{self.gameworld.num_of_remaining_enemies}")
+            "num_of_enemy", f"敵機残り:{self.gameworld.num_of_remaining_enemies}"
+        )
         textfactory.rewrite_text(
             "elapsed_time_in_level",
-            f"経過時間:{round(self.gameworld.elapsed_time_in_level)}")
+            f"経過時間:{round(self.gameworld.elapsed_time_in_level)}",
+        )
         textfactory.rewrite_text(
             "count_of_enemies_summoned",
-            f"敵生成数:{self.gameworld.count_of_enemies_summoned}")
+            f"敵生成数:{self.gameworld.count_of_enemies_summoned}",
+        )
 
         self.keyboard.do_action_by_keyinput(pygame.K_v)
 
@@ -891,14 +902,16 @@ class GameScene(Scene):
             self.gameworld.stop_entity_from_moving_off_screen(self.player)
 
             if self.gameworld.count_of_enemies_summoned > 0:
-                if (not (self.player in self.gameworld.entities) or
-                        self.gameworld.num_of_remaining_enemies == 0):
+                if (
+                    not (self.player in self.gameworld.entities)
+                    or self.gameworld.num_of_remaining_enemies == 0
+                ):
                     self.stop_game_and_show_result()
 
             self.gameworld.run_level(dt)
             self.gameworld.process_collision(
-                (self.player, ),
-                self.player.shot_que + self.player.missile_que)
+                (self.player,), self.player.shot_que + self.player.missile_que
+            )
 
             self.gameworld.clear_enemies_off_screen()
             self.gameworld.scroll(dt)
@@ -920,8 +933,9 @@ class GameScene(Scene):
         self.gameworld.register_gamescore()
 
     def draw(self, screen):
-        screen.blit(self.gameworld.bg_surf,
-                    (0, self.gameworld.bg_scroll_y - global_.w_size[1]))
+        screen.blit(
+            self.gameworld.bg_surf, (0, self.gameworld.bg_scroll_y - global_.w_size[1])
+        )
         textfactory.render("tutorial", screen, (0, 0))
         textfactory.render("highscore", screen)
         textfactory.render("gamescore", screen)
@@ -944,21 +958,13 @@ class OptionsScene(Scene):
         self.arrow_for_menu_cursor = ArrowToTurnToward()
         self.gamemenu = ["enemy_se_volume", "player_se_volume", "hitbox", 0]
         self.index_of_menu_item_selected = 0
+        self.keyboard.register_keyaction(pygame.K_UP, 0, 10, self.go_up_menu_cursor)
+        self.keyboard.register_keyaction(pygame.K_DOWN, 0, 10, self.go_down_menu_cursor)
+        self.keyboard.register_keyaction(pygame.K_z, 0, 20, self.command_menu_item)
         self.keyboard.register_keyaction(
-            pygame.K_UP,
-            0, 10, self.go_up_menu_cursor)
-        self.keyboard.register_keyaction(
-            pygame.K_DOWN,
-            0, 10, self.go_down_menu_cursor)
-        self.keyboard.register_keyaction(
-            pygame.K_z,
-            0, 20, self.command_menu_item)
-        self.keyboard.register_keyaction(
-            pygame.K_RIGHT,
-            0, 10, self.add_value_of_option)
-        self.keyboard.register_keyaction(
-            pygame.K_LEFT,
-            0, 10, self.sub_value_of_option)
+            pygame.K_RIGHT, 0, 10, self.add_value_of_option
+        )
+        self.keyboard.register_keyaction(pygame.K_LEFT, 0, 10, self.sub_value_of_option)
 
     def process_menu_cursor(self):
         if self.arrow_for_menu_cursor.is_up:
@@ -1004,13 +1010,14 @@ class OptionsScene(Scene):
 
     def update(self, dt):
         textfactory.rewrite_text(
-            "enemy_se_volume", "Enemy: "+str(
-                round(channel_manager["enemy"]["volume"], 1)))
+            "enemy_se_volume",
+            "Enemy: " + str(round(channel_manager["enemy"]["volume"], 1)),
+        )
         textfactory.rewrite_text(
-            "player_se_volume", "Player: "+str(
-                round(channel_manager["player"]["volume"], 1)))
-        textfactory.rewrite_text(
-            "switch_hitbox", f"Show hitbox: {show_hitbox}")
+            "player_se_volume",
+            "Player: " + str(round(channel_manager["player"]["volume"], 1)),
+        )
+        textfactory.rewrite_text("switch_hitbox", f"Show hitbox: {show_hitbox}")
         self.keyboard.do_action_by_keyinput(pygame.K_UP)
         self.keyboard.do_action_by_keyinput(pygame.K_DOWN)
         self.keyboard.do_action_by_keyinput(pygame.K_RIGHT)
@@ -1039,15 +1046,9 @@ class TitleMenuScene(Scene):
         self.menu_cursor_pos = [0, 0]
         self.gamemenu = [2, 1, -1]
         self.index_of_menu_item_selected = 0
-        self.keyboard.register_keyaction(
-            pygame.K_UP,
-            0, 10, self.go_up_menu_cursor)
-        self.keyboard.register_keyaction(
-            pygame.K_DOWN,
-            0, 10, self.go_down_menu_cursor)
-        self.keyboard.register_keyaction(
-            pygame.K_z,
-            0, 20, self.command_menu_item)
+        self.keyboard.register_keyaction(pygame.K_UP, 0, 10, self.go_up_menu_cursor)
+        self.keyboard.register_keyaction(pygame.K_DOWN, 0, 10, self.go_down_menu_cursor)
+        self.keyboard.register_keyaction(pygame.K_z, 0, 20, self.command_menu_item)
         self.gamemenuui = UIBoxLayout()
         self.ui_text_start = UIElement()
         self.ui_text_option = UIElement()
@@ -1070,8 +1071,7 @@ class TitleMenuScene(Scene):
             self.index_of_menu_item_selected += 1
 
     def command_menu_item(self):
-        self.manager.transition_to(
-            self.gamemenu[self.index_of_menu_item_selected])
+        self.manager.transition_to(self.gamemenu[self.index_of_menu_item_selected])
 
     def update(self, dt):
         self.keyboard.do_action_by_keyinput(pygame.K_UP)
@@ -1118,9 +1118,9 @@ def run(fps_num=fps):
     scene_manager.push(OptionsScene(scene_manager))
     scene_manager.push(GameScene(scene_manager))
     scene_manager.push(UIDebugScene(scene_manager))
-    scene_manager.transition_to(3)
+    # scene_manager.transition_to(3)
     while running:
-        dt = clock.tick(fps)/1000  # dt means delta time
+        dt = clock.tick(fps) / 1000  # dt means delta time
 
         global_.screen.fill((0, 0, 0))
         for event in pygame.event.get():
@@ -1128,8 +1128,9 @@ def run(fps_num=fps):
 
         scene_manager.update(dt)
         scene_manager.draw(global_.screen)
-        pygame.transform.scale(global_.screen, global_.w_size_unscaled,
-                               pygame.display.get_surface())
+        pygame.transform.scale(
+            global_.screen, global_.w_size_unscaled, pygame.display.get_surface()
+        )
         pygame.display.update()
         IntervalCounter.tick(dt)
     pygame.quit()
